@@ -8,11 +8,17 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json.Serialization;
 using Microsoft.AspNetCore.Mvc.Formatters;
+using Microsoft.Extensions.Configuration;
+using CityInfo.API.Services;
 
 namespace CityInfo.API
 {
     public class Startup
     {
+        public static IConfiguration Configuration {get; set;} 
+        public Startup(IConfiguration Configure) {
+            Configuration = Configure;
+        }
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
@@ -28,6 +34,7 @@ namespace CityInfo.API
                     castedResolver.NamingStrategy = null;
                 }
             });
+            services.AddScoped<IMailService, LocalMailService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -37,6 +44,7 @@ namespace CityInfo.API
             {
                 app.UseDeveloperExceptionPage();
             }
+
             app.UseMvc();
         }
     }

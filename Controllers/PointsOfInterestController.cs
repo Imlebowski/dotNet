@@ -1,4 +1,5 @@
 using CityInfo.API.Models;
+using CityInfo.API.Services;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -8,9 +9,16 @@ using System.Threading.Tasks;
 
 namespace CityInfo.API.Controllers
 {
+
     [Route("api/theDude")]
     public class PointsOfInterestController : Controller
     {
+        private IMailService mailService;
+        public PointsOfInterestController(IMailService _mailService)
+        {
+            mailService = _mailService;
+        }
+
         [HttpGet("{cityId}/pointsofinterest")]
         public IActionResult GetPointsOfInterest(int cityId)
         {
@@ -151,7 +159,7 @@ namespace CityInfo.API.Controllers
 
             return NoContent();
         }
-        
+
         [HttpDelete("{cityId}/pointsofinterest/{id}")]
         public IActionResult DeletePointOfInterest(int cityId, int id)
         {
@@ -170,7 +178,7 @@ namespace CityInfo.API.Controllers
             }
 
             city.PointsOfInterest.Remove(pointOfInterestforDelete);
-
+            mailService.Send("Don't visit", pointOfInterestforDelete.Name);
             return NoContent();
         }
     }
