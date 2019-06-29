@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using CityInfo.API.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,26 +9,20 @@ namespace CityInfo.API.Controllers
     public class CitiesController : Controller
     {
         [HttpGet]
-        public JsonResult GetCities()
+        public ActionResult GetCities()
         {
-            return new JsonResult(new CityDto()
-            {
-                Id = 1,
-                Name = "Bengaluru",
-                Description = "Garden City"
-            });
+            return Ok(CitiesDataStore.Current.Cities);
         }
 
-        [Route("{id}")]
+        [Route("{cityID}")]
         [HttpGet]
-        public JsonResult GetCity(int CityID)
+        public ActionResult GetCity(int CityID)
         {
-            return new JsonResult(new
-            {
-                Id = 1,
-                Name = "Bengaluru",
-                Desc = "Garden City"
-            });
+           var cityToReturn = CitiesDataStore.Current.Cities.Where(c => c.Id == CityID).FirstOrDefault();
+           if (cityToReturn == null ) {
+               return null;
+           }
+           return Ok(cityToReturn);
         }
     }
 }
