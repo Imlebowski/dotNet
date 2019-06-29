@@ -1,3 +1,4 @@
+using CityInfo.API.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CityInfo.API.Controllers
@@ -8,14 +9,14 @@ namespace CityInfo.API.Controllers
         [HttpGet]
         public JsonResult GetCities()
         {
-            return new JsonResult(new
+            return new JsonResult(new CityDto()
             {
                 Id = 1,
                 Name = "Bengaluru",
-                Desc = "Garden City"
+                Description = "Garden City"
             });
         }
-        
+
         [Route("{id}")]
         [HttpGet]
         public JsonResult GetCity(int CityID)
