@@ -1,3 +1,4 @@
+using CityInfo.API.Entities;
 using CityInfo.API.Models;
 using CityInfo.API.Services;
 using Microsoft.AspNetCore.JsonPatch;
@@ -14,9 +15,11 @@ namespace CityInfo.API.Controllers
     public class PointsOfInterestController : Controller
     {
         private IMailService mailService;
-        public PointsOfInterestController(IMailService _mailService)
+        private CityInfoContext ctx;
+        public PointsOfInterestController(IMailService _mailService, CityInfoContext _ctx)
         {
             mailService = _mailService;
+            ctx = _ctx;
         }
 
         [HttpGet("{cityId}/pointsofinterest")]

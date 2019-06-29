@@ -10,6 +10,8 @@ using Newtonsoft.Json.Serialization;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.Extensions.Configuration;
 using CityInfo.API.Services;
+using CityInfo.API.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace CityInfo.API
 {
@@ -40,6 +42,8 @@ namespace CityInfo.API
 #else
             services.AddScoped<IMailService, CloudMailService>();
 #endif
+            var connectionString = Startup.Configuration["connectionString:cityConnection"];
+            services.AddDbContext<CityInfoContext>(o => o.UseSqlServer(connectionString));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
