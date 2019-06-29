@@ -15,8 +15,9 @@ namespace CityInfo.API
 {
     public class Startup
     {
-        public static IConfiguration Configuration {get; set;} 
-        public Startup(IConfiguration Configure) {
+        public static IConfiguration Configuration { get; set; }
+        public Startup(IConfiguration Configure)
+        {
             Configuration = Configure;
         }
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -24,7 +25,7 @@ namespace CityInfo.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc()
-            .AddMvcOptions( o => o.OutputFormatters.Add( new XmlDataContractSerializerOutputFormatter()))
+            .AddMvcOptions(o => o.OutputFormatters.Add(new XmlDataContractSerializerOutputFormatter()))
             .AddJsonOptions(o =>
             {
                 if (o.SerializerSettings.ContractResolver != null)
@@ -34,7 +35,11 @@ namespace CityInfo.API
                     castedResolver.NamingStrategy = null;
                 }
             });
+#if DEBUG
             services.AddScoped<IMailService, LocalMailService>();
+#else
+            services.AddScoped<IMailService, CloudMailService>();
+#endif
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
