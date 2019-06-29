@@ -11,7 +11,7 @@ namespace CityInfo.API.Models
         [Required]
         public string Name { get; set; }
         
-        [Required(ErrorMessage = "Description is required")]
+        // [Required(ErrorMessage = "Description is required")]
         [MaxLength(200)]
         public string Description { get; set; }
     }
